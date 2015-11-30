@@ -1,0 +1,265 @@
+@font-face {
+    font-family: 'LigatureSymbols';
+    src: url('../font/LigatureSymbols-2.11.eot');
+    src: url('../font/LigatureSymbols-2.11.eot?#iefix') format('embedded-opentype'),
+         url('../font/LigatureSymbols-2.11.woff') format('woff'),
+         url('../font/LigatureSymbols-2.11.ttf') format('truetype'),
+         url('../font/LigatureSymbols-2.11.svg#LigatureSymbols') format('svg');
+    src: url('../font/LigatureSymbols-2.11.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+.symbole {
+    font-family: 'LigatureSymbols';
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: default;
+}
+body {
+    background: linear-gradient(RGBA(21, 9, 2, 0.48), RGBA(233, 217, 206, 0.31)), linear-gradient(90deg, #322113 50%, #241309 50%);
+    box-shadow: inset 0px 0px 3em 0px #25160a;
+    height: 100vh;
+    padding: 1em;
+    font-family: sans;
+    background-size: auto auto, 3em 4em;
+	overflow:hidden;
+}
+#menu {
+    padding: 0.5em 0em;
+    background: linear-gradient(90deg, #a08876, #bca08b 10%, #bca08b 90%, #a08876);
+    box-shadow: 2px 2px 0px 0px #25160a;
+    border: 1px solid #bfa898;
+    position: fixed;
+    right: 1em;
+    bottom: 0;
+    width: 16em;
+    top: 0;
+    border-width: 0 1px;
+}
+
+h3 {
+    padding: 0em 1em 0.4em;
+    font-size: 1.6em;
+    color: RGBA(0, 0, 0, 0.19);
+    word-spacing: -0.1em;
+}
+#pitch {
+    background: #ddd6b5;
+    font-weight: bold;
+    color: RGBA(0, 0, 0, 0.5);
+    font-size: 0.9em;
+    padding: 0.5em 0.5em 0;
+    margin: 0 1.3em 0.4em;
+    box-shadow: 1px 1px 2px RGBA(0, 0, 0, 0.34), inset 0 0 2em #f0ebda;
+    position: relative;
+}
+#pitch::before, #pitch::after {
+    content: "";
+    display: block;
+    width: 1.9em;
+    height: 0.9em;
+    position: absolute;
+    top: 0em;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.31);
+    left: -0.5em;
+    transform: rotate(-45deg);
+}
+#pitch::after {
+    top: inherit;
+    bottom: 0em;
+    right: -14.3em;
+    transform: rotate(-19.3deg);
+}
+#pitch p { padding-bottom: 0.5em; }
+#draggable {
+    list-style: none;
+    width: 10em;
+    background: radial-gradient(RGBA(125, 102, 86, 0.8) 66%, RGBA(150, 128, 111, 0.4));
+    border-radius: 0.5em 0em 0em 0.5em;
+    padding: 0.6em;
+    position: absolute;
+    top: 2em;
+    right: calc(16em - 1px);
+}
+#draggable .instruction { width: -moz-max-content; }
+#draggable .trash {
+    margin: 1.2em 0 0.4em;
+}
+#draggable .trash .label {
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    box-shadow: none;
+    background: transparent none repeat scroll 0% 0%;
+    display: block;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#nb {
+    list-style: none;
+    width: 2.5em;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 0 0 0 0.4em;
+    padding: 1px;
+    display: inline-block;
+	height: 100vh;
+}
+#nb .nb {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    color: RGBA(0, 0, 0, 0.18);
+}
+#sortable {
+    list-style-type: none;
+    width: 11em;
+    display: inline-block;
+    vertical-align: top;
+	height: 100vh;
+}
+.instruction, #nb li {
+    background: transparent;
+    border: 0;
+    margin: 0.6em 0;
+    cursor: pointer;
+}
+
+.instruction .label, .instruction .ram {
+    background: #9cb65c;
+    border-radius: 2px;
+    box-shadow: 1px 1px 1px 0 RGBA(0, 0, 0, 0.25);
+    font-weight: bold;
+    padding: 0.1em 0.3em;
+    margin-right: 0.4em;
+    color: RGBA(0, 0, 0, 0.49);
+    cursor: pointer;
+}
+.instruction .ram { padding: 0.1em 0.6em; }
+
+.instruction.inbox .label,
+.instruction.outbox .label { background: #9cb65c; }
+.instruction.copyto .label,
+.instruction.copyto .ram,
+.instruction.copyfrom .label,
+.instruction.copyfrom .ram { background: #c86a54; }
+.instruction.sub .label,
+.instruction.sub .ram,
+.instruction.add .label,
+.instruction.add .ram { background: #c78d62; }
+.instruction.jump .label,
+.instruction.jumphere .label { background: #8d8dc1; }
+
+
+#player {
+    background: #322e2a;
+    box-shadow: 0 0 3em RGBA(0, 0, 0, 0.19),inset 0 0 0.6em RGBA(0, 0, 0, 0.56);
+    display: inline-block;
+    padding: 0.4em 0.6em 0.9em;
+    position: fixed;
+    bottom: -2px;
+    left: 7em;
+    border-radius: 3px;
+	transition: bottom 2s;
+}
+#player.hide {
+    bottom: -5em;
+}
+#player li {
+    display: inline;
+    margin-right: 0.4em;
+    vertical-align: bottom;
+}
+#player .button {
+    width: 1.6em;
+    height: 1.6em;
+    background: #5e5e5e;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px #000,inset 0 0 1em RGBA(0, 0, 0, 0.35);
+    font-size: 1.7em;
+    color: RGBA(0, 0, 0, 0.43);
+    padding: 2px;
+    margin: 2px;
+}
+#player .active button { background: #86a053; cursor: pointer; }
+#player .active .button:hover { box-sizing: content-box; margin: 0; }
+
+#player #play .button { width: 1.9em; height: 1.9em; }
+#player #stop.active button { background: #a85643; }
+
+
+.inout {
+    list-style: none;
+    background: linear-gradient(#46352a 50%, #3f2f24 50%);
+    display: inline-block;
+    padding: 0.6em;
+    border: 0.8em solid #24201c;
+    bottom: 0;
+    position: fixed;
+    box-shadow: 0 0 2em RGBA(0, 0, 0, 0.34),inset 0 0 0.4em RGBA(0, 0, 0, 0.54);
+    background-size: auto 5em;
+    width: 4.8em;
+    height: 56vh;
+}
+#outbox { right: 18em; }
+.inout li {
+	margin-top: 0;
+    margin-bottom: 0.8em;
+	transition: margin-top 2s;
+}
+#inbox li.out { margin-top: 25em; }
+
+.value {
+    background: #a1cb5e;
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    border: 0;
+    box-shadow: 0 1px 0 RGBA(0, 0, 0, 0.23),0 5px 0 #506036,0 8px 4px RGBA(0, 0, 0, 0.32),inset 0 6px 1em 0px rgba(255, 255, 255, 0.73);
+    border-radius: 1px;
+    border-top: 1px solid #fff;
+    font-size: 1em;
+    font-weight: bold;
+    color: RGBA(0, 0, 0, 0.53);
+}
+
+#inlabel, #outlabel {
+    background: #e1d3c3;
+    position: fixed;
+    bottom: 14.7em;
+    z-index: 2;
+    font-size: 1.7em;
+    font-weight: bold;
+    padding: 0em 0.3em;
+    transform: rotate(-5deg);
+    color: RGBA(24, 9, 1, 0.71);
+    box-shadow: inset 0 0 1em RGBA(0, 0, 0, 0.29);
+}
+#inlabel  { left: 0.7em; }
+#outlabel { right: 10.1em; transform: rotate(10deg);}
+
+
+
+.bonshomme {
+    position: fixed;
+    bottom: 35em;
+    left: 6em;
+	z-index: 5;
+}
+.bonshomme img {
+    margin: -50px -35px;
+}
+.bonshomme .box {
+    position: absolute;
+    top: 18px;
+    list-style: none;
+    left: -16px;
+}
+.bonshomme .value {
+    box-shadow: 0 1px 0 RGBA(0, 0, 0, 0.23),0 5px 0 #506036,0 -4px 4px RGBA(0, 0, 0, 0.32),inset 0 6px 1em 0px rgba(255, 255, 255, 0.73);
+}

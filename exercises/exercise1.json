@@ -1,0 +1,10 @@
+{
+    "name":"Mail Room",
+    "description":"<p>Drag commands into this area to build a program.</p><p>Your program should tell your worker to grab each thing from the INBOX, and drop it into the OUTBOX.</p>",
+    "commands":[
+        "inbox",
+        "outbox"
+    ],
+    "samples":[1,4,8],
+    "solution":[1,4,8]
+}
