@@ -205,12 +205,12 @@ h3 {
     background-size: auto 5em;
     width: 4.8em;
     height: 56vh;
+	border-width: 0.8em 0.8em 0;
 }
 #outbox { right: 18em; }
 .inout li {
 	margin-top: 0;
     margin-bottom: 0.8em;
-	transition: margin-top 2s;
 }
 #inbox li.out { margin-top: 25em; }
 
@@ -231,7 +231,7 @@ h3 {
 #inlabel, #outlabel {
     background: #e1d3c3;
     position: fixed;
-    bottom: 14.7em;
+    bottom: 55vh;
     z-index: 2;
     font-size: 1.7em;
     font-weight: bold;
@@ -247,7 +247,7 @@ h3 {
 
 .bonshomme {
     position: fixed;
-    bottom: 35em;
+    bottom: 77vh;
     left: 6em;
 	z-index: 5;
 }

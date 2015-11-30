@@ -16,9 +16,9 @@ function Main () {
         jump:'<li class="instruction jump" data-command="jump"><span class="label">jump</span></li>'
     };
     this.bonshomme = {
-        start:{bottom: "35em", left: "6em"},
-        inbox:{bottom: "25em", left: "8em"},
-        outbox:{bottom: "25em", left: "34em"}
+        start:{bottom: "77vh", left: "8vw"},
+        inbox:{bottom: $('#inbox').css('height'), left: "11vw"},
+        outbox:{bottom: $('#inbox').css('height'), left: "65vw"}
     }
     
     /*-- init --*/
@@ -27,6 +27,8 @@ function Main () {
     this.playhead = -1;
     this.exerciseFirstAct = false;
     this.data = null;
+    this.inboxConveyor = 0;
+    this.outboxConveyor = 0;
     
     var mi = this;
     
@@ -102,20 +104,23 @@ function Main () {
             for( c in data.samples ) {
                 var val = $(value.replace("%s", data.samples[c]));
                 var bval = $('#inbox').append(val);
-                val.css({transform:'rotate('+(Math.random()*5-2.5)+'deg)'})
-                if(c == 0) val.addClass('out');
+                val.css({transform:'rotate('+(Math.random()*5-2.5)+'deg)'});
             }
-            $('#inbox').animate( {'b-p':'-20em'},{ duration: 2000,
-                step: function( now, fx ) { $(fx.elem).css('background-position','0 '+now+'em') }} );
-            setTimeout(function(){ $('#inbox li').removeClass('out'); }, 1);
-            $('#inbox').css('background-position','');
+            
+            var decal = $('#inbox').css('height').replace('px', '');
+            this.inboxConveyor -= decal;
+            $('#inbox').animate( {'b-p':this.inboxConveyor},{ duration: 2000, ease: 'ease',
+                step: function( now, fx ) { $(fx.elem).css('background-position','0 '+now+'px') }});
+            
+            $('#inbox li:first-child').css('margin-top', decal+'px');
+            $('#inbox li:first-child').animate( {'margin-top':'0'},{ duration: 2000, ease: 'ease'});
             
             $('#outbox').empty();
             $('.bonshomme .box').empty();
             
             $('#play').addClass('active');
             $('#stop').removeClass('active');
-            $('#forward').addClass('active');
+            $('#forward').removeClass('active');
             $('#reply').removeClass('active');
         }
         
@@ -153,20 +158,43 @@ function Main () {
     }
     
     this.inboxCommand = function () {
+        
         console.log('go in in');
+        var mi = this;
+        
         $('.bonshomme').animate(
             this.bonshomme.inbox,
             500,
             function() {
                 $('.bonshomme .box').empty();
                 $('.bonshomme .box').append($('#inbox li:first-child'));
+                
+                $('#inbox li:first-child').css('margin-top', '2.8em');
+                $('#inbox li:first-child').animate( {'margin-top':'0em'},{ duration: 500, ease: 'ease'});
+                
+                if( mi.ConveyorMin == undefined )
+                    mi.ConveyorMin = Number($('#inbox li:first-child').css('margin-top').replace('px', ''));
+                mi.inboxConveyor -= mi.ConveyorMin;
+                $('#inbox').animate( {'b-p':mi.inboxConveyor},{ duration: 500, ease: 'ease',
+                    step: function( now, fx ) { $(fx.elem).css('background-position','0 '+now+'px') }});
+                    
                 frame();
             }
         );
     }
 
     this.outboxCommand = function () {
+        
         console.log('go in out');
+        
+        $('#outbox li:first-child').animate( {'margin-top':'2.8em'},{ duration: 500, ease: 'ease', done:function() {
+            $('#outbox li:first-child').css('margin-top', '0em');
+        }});
+        
+        this.outboxConveyor += this.ConveyorMin;
+        $('#outbox').animate( {'b-p':this.outboxConveyor},{ duration: 500, ease: 'ease',
+            step: function( now, fx ) { $(fx.elem).css('background-position','0 '+now+'px') }});
+        
         $('.bonshomme').animate(
             this.bonshomme.outbox,
             500,
@@ -180,64 +208,3 @@ function Main () {
 }
 
 $(function() {Main()});
-
-/*
-
-
-*/
-/*-- exercise 1 --*/
-/*
-$(function() {
-    
-    Main();
-    
-    
-    
-    $.getJSON( "exercises/exercise1.json", function( data ) {
-        
-        
-        //title
-        $('#menu h3').html(data.name);
-        $('#pitch').html(data.description);
-        
-        for( var c in data.commands ) {
-            var command = data.commands[c];
-            $('#draggable').append(commands[command]);
-        }
-        $('#draggable').append(trash);
-        
-        reset(start, program, data);
-        
-        
-        /*-- UI --*/
-/*
-        $( "#sortable" ).sortable();
-        $( ".instruction" ).draggable({
-            connectToSortable: "#sortable",
-            helper: "clone",
-            revert: "invalid",
-            scroll: false,
-            stop: function() {
-                updateLineNumber(0);
-                if(!start) {
-                    $('#player').removeClass('hide');
-                    $('#play').addClass('active');
-                    $('#forward').addClass('active');
-                }
-                start = true;
-                reset(start, program, data);
-            }
-        });
-        $( "#draggable" ).droppable({
-            drop: function( event, ui ) {
-                ui.draggable.remove();
-                updateLineNumber(-1);
-                reset(start, program, data);
-            }
-        });
-        $( "ul, li" ).disableSelection();
-
-    });
-    
-});
-*/
