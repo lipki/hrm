@@ -1,7 +1,11 @@
 {
-    "name":"Mail Room",
-    "description":"<p>Drag commands into this area to build a program.</p><p>Your program should tell your worker to grab each thing from the INBOX, and drop it into the OUTBOX.</p>",
+    "name":"Salle de courrier",
+    "description":"<p>Faites glisser les commandes dans la zone si-dessous pour construire un programme.</p><p>Votre programme doit dire à votre travailleur de saisir chaque chose de l'INBOX, et de le déposer dans l'OUTBOX.</p>",
     "commands":[
+        "inbox",
+        "outbox"
+    ],
+    "program":[
         "inbox",
         "outbox"
     ],

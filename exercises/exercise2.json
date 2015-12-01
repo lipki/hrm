@@ -1,0 +1,12 @@
+{
+    "name":"Salle de courrier",
+    "description":"<p>Placer chaque chose de l'INBOX et déposer le dans l'OUTBOX.<br/>Vous avez une nouvelle commande ! Vous pouvez déplacer la fléche pour sauter à une line différente de votre programme.</p>",
+    "commands":[
+        "inbox",
+        "outbox",
+        "jump"
+    ],
+    "program":[],
+    "samples":["A","U","T","O","E","X","E"],
+    "solution":["A","U","T","O","E","X","E"]
+}
